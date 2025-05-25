@@ -1,31 +1,12 @@
 {
   "version": 2,
-  "buildCommand": "npm run vercel-build",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
   "builds": [
     {
       "src": "api/index.ts",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": [
-          "api/**",
-          "backend/src/**"
-        ]
-      }
+      "use": "@vercel/node"
     }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.ts",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      "headers": {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS"
-      }
-    },
     {
       "src": "/(.*)",
       "dest": "/api/index.ts"
