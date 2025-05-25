@@ -1,0 +1,13 @@
+{
+  "name": "gestion-medica-backend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd backend && npm install && npm run build",
+    "start": "cd backend && npm start",
+    "vercel-build": "npm run build"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+} 

@@ -1,9 +1,18 @@
-import { app } from './backend/src/index';
+import { app } from '../backend/src/index';
 import express from 'express';
 import helmet from 'helmet';
+import cors from 'cors';
 
 // Crear una nueva instancia de la aplicación para Vercel
 const vercelApp = express();
+
+// Configuración de CORS
+vercelApp.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Aplicar middleware y configuraciones
 vercelApp.use(helmet({
@@ -20,8 +29,11 @@ vercelApp.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }
 }));
 
+// Middleware para parsear JSON
+vercelApp.use(express.json());
+
 // Usar todas las rutas y middleware de la aplicación principal
-vercelApp.use(app);
+vercelApp.use('/api', app);
 
 // Ruta de health check para Vercel
 vercelApp.get('/api/health', (req, res) => {
