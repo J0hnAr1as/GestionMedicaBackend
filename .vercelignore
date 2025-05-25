@@ -1,0 +1,16 @@
+.git
+node_modules
+.env
+.env.*
+*.log
+.DS_Store
+.vscode
+.idea
+coverage
+__tests__
+test
+backend/node_modules
+backend/dist
+backend/.env
+backend/.env.*
+backend/*.log 
