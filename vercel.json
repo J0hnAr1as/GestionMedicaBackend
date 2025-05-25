@@ -2,18 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/index.ts",
+      "src": "index.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/index.ts"
+      "dest": "/index.ts"
     },
     {
       "src": "/(.*)",
-      "dest": "/api/index.ts"
+      "dest": "/index.ts"
     }
   ],
   "env": {
@@ -22,4 +22,4 @@
     "JWT_SECRET": "@jwt_secret",
     "FRONTEND_URL": "@frontend_url"
   }
-}
+} 
