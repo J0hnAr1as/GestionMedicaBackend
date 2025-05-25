@@ -90,7 +90,7 @@ const searchValidation = [
 ];
 
 // Controladores
-const createMedicalRecord = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const createMedicalRecord = async (req: Request, res: Response): Promise<void> => {
   try {
     const medicalRecord = new MedicalRecord({
       ...req.body,
@@ -99,7 +99,7 @@ const createMedicalRecord = async (req: Request, res: Response, next: NextFuncti
     await medicalRecord.save();
     res.status(201).json(medicalRecord);
   } catch (error) {
-    next(error);
+    res.status(500).json({ message: 'Error al crear el registro médico' });
   }
 };
 
@@ -166,7 +166,7 @@ const getMedicalRecordById = async (req: Request, res: Response, next: NextFunct
   }
 };
 
-const updateMedicalRecord = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const updateMedicalRecord = async (req: Request, res: Response): Promise<void> => {
   try {
     const record = await MedicalRecord.findById(req.params.id);
     if (!record) {
@@ -184,8 +184,7 @@ const updateMedicalRecord = async (req: Request, res: Response, next: NextFuncti
     await record.save();
     res.json(record);
   } catch (error) {
-    console.error('Error al actualizar registro médico:', error);
-    res.status(500).json({ message: 'Error en el servidor' });
+    res.status(500).json({ message: 'Error al actualizar el registro médico' });
   }
 };
 
