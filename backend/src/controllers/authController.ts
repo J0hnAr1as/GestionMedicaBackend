@@ -14,7 +14,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { name, email, password, role, documentId, documentType } = req.body;
+        const { name, email, password, role, documentId, documentType, birthDate, phone, address } = req.body;
 
         // Verificar si el usuario ya existe
         let user = await User.findOne({ email });
@@ -29,7 +29,10 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             password,
             role,
             documentId,
-            documentType
+            documentType,
+            birthDate,
+            phone,
+            address
         });
 
         // Encriptar contraseña
@@ -52,7 +55,7 @@ export const register = async (req: Request, res: Response): Promise<Response> =
             { expiresIn: '24h' }
         );
 
-        return res.json({ 
+        return res.status(201).json({ 
             token, 
             user: { 
                 id: user.id, 
@@ -77,16 +80,24 @@ export const register = async (req: Request, res: Response): Promise<Response> =
 export const login = async (req: Request, res: Response): Promise<Response> => {
     try {
         const { email, password } = req.body;
+        console.log('Intento de login para email:', email);
 
         // Buscar usuario
         const user = await User.findOne({ email });
+        console.log('Usuario encontrado:', user ? 'Sí' : 'No');
+        
         if (!user) {
+            console.log('Usuario no encontrado en la base de datos');
             return res.status(401).json({ message: 'Credenciales inválidas' });
         }
 
         // Verificar contraseña
+        console.log('Comparando contraseñas...');
         const isValidPassword = await bcrypt.compare(password, user.password);
+        console.log('¿Contraseña válida?:', isValidPassword);
+
         if (!isValidPassword) {
+            console.log('Contraseña inválida');
             return res.status(401).json({ message: 'Credenciales inválidas' });
         }
 
@@ -103,7 +114,8 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
             { expiresIn: '24h' }
         );
 
-        return res.json({
+        console.log('Login exitoso, generando respuesta...');
+        return res.status(200).json({
             message: 'Login exitoso',
             token,
             user: {
